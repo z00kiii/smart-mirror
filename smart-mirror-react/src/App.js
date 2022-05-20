@@ -30,7 +30,7 @@ function App() {
   // }, []);
   return (
     <div className="bg-black text-white h-screen border-2 p-2">
-      <div className="w-32 absolute bottom-1 left-1 m-2 leading-tight">
+      <div className="w-32 absolute bottom-0.5 left-1 m-2 mb-1.5 leading-tight">
         <Spotify spotifyApi={spotifyApi} />
       </div>
       <div className="w-12 absolute bottom-5 right-1 m-2 leading-tight">

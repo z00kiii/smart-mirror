@@ -218,7 +218,7 @@ const Spotify = ({ spotifyApi }) => {
         <div key={currentPlayback.progress_ms}>
           <input
             type="range"
-            className="w-full"
+            className="w-full appearance-none bg-transparent"
             min="0"
             max={currentPlayback.item.duration_ms}
             step="1000"
@@ -239,7 +239,7 @@ const Spotify = ({ spotifyApi }) => {
           <div>{currentPlaybackProgress}</div>
           <div>-{currentPlaybackLeft}</div>
         </div>
-        <div className="flex justify-center mt-1">
+        <div className="flex justify-center mt-1.5">
           <i
             className="fa-solid fa-backward fa-sm"
             onClick={skipToPrevious}
@@ -254,13 +254,13 @@ const Spotify = ({ spotifyApi }) => {
           <i className="fa-solid fa-forward fa-sm" onClick={skipToNext}></i>
         </div>
         <div
-          className="flex align-middle justify-center mt-2"
+          className="flex align-middle justify-between mt-3"
           key={currentPlayback.device.volume_percent}
         >
-          <div></div>
+          <div className="fa-solid fa-volume-down text-lg"></div>
           <input
             type="range"
-            className="w-20"
+            className="appearance-none bg-transparent w-24"
             min="0"
             max="100"
             step="5"
@@ -268,14 +268,16 @@ const Spotify = ({ spotifyApi }) => {
             onMouseUp={(e) => volumeInput(e.target.value)}
             onChange={() => clearRefreshInterval(refreshInterval)}
           />
-          <div></div>
+          <div className="fa-solid fa-volume-down text-lg "></div>
         </div>
-        <div className="flex justify-between mt-2">
-          <div className="text-xs">{currentPlayback.device.name}</div>
-          <i
-            className="fa-brands fa-deezer fa-sm"
-            onClick={toggleDevicePanel}
-          ></i>
+        <div className="flex justify-between mt-1.5">
+          <div className="text-sm self-center">{currentPlayback.device.name}</div>
+          <div>
+            <i
+              className="fa-brands fa-deezer fa-sm"
+              onClick={toggleDevicePanel}
+            ></i>
+          </div>
         </div>
         {showPlaylistPanel ? (
           <ul className="absolute left-36 top-0 px-6 py-1 min-w-177px w-fit max-h-60 border-2 border-gray-800 rounded-md opacity-95 overflow-auto">
