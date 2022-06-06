@@ -253,7 +253,7 @@ const Spotify = ({ spotifyApi }) => {
           </div>
           <i className="fa-solid fa-forward fa-lg" onClick={skipToNext}></i>
         </div>
-        <div  
+        <div
           className="flex align-middle justify-between mt-4"
           key={currentPlayback.device.volume_percent}
         >
