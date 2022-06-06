@@ -55,7 +55,7 @@ const Spotify = ({ spotifyApi }) => {
   useEffect(() => {
     initRefreshInterval();
     setTimeout(() => {
-      transferAndPlayOnMirror();
+      //transferAndPlayOnMirror();
     }, 1000);
     return () => {
       clearInterval(refreshInterval);
@@ -239,22 +239,22 @@ const Spotify = ({ spotifyApi }) => {
           <div>{currentPlaybackProgress}</div>
           <div>-{currentPlaybackLeft}</div>
         </div>
-        <div className="flex justify-center mt-1.5">
+        <div className="flex justify-center mt-2.5 text-3xl">
           <i
-            className="fa-solid fa-backward fa-sm"
+            className="fa-solid fa-backward fa-lg"
             onClick={skipToPrevious}
           ></i>
           <div className="w-10 flex justify-center" onClick={togglePlayback}>
             {currentPlayback.is_playing ? (
-              <i className="fa-solid fa-pause fa-sm"></i>
+              <i className="fa-solid fa-pause fa-lg"></i>
             ) : (
-              <i className="fa-solid fa-play fa-sm"></i>
+              <i className="fa-solid fa-play fa-lg"></i>
             )}
           </div>
-          <i className="fa-solid fa-forward fa-sm" onClick={skipToNext}></i>
+          <i className="fa-solid fa-forward fa-lg" onClick={skipToNext}></i>
         </div>
-        <div
-          className="flex align-middle justify-between mt-3"
+        <div  
+          className="flex align-middle justify-between mt-4"
           key={currentPlayback.device.volume_percent}
         >
           <div className="fa-solid fa-volume-down text-lg"></div>

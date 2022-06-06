@@ -29,7 +29,7 @@ function App() {
   //   document.body.appendChild(faScript);
   // }, []);
   return (
-    <div className="bg-black text-white h-screen border-2 p-2">
+    <div className="bg-black text-white h-screen border-2 border-gray-500 p-2">
       <div className="w-32 absolute bottom-0.5 left-1 m-2 mb-1.5 leading-tight">
         <Spotify spotifyApi={spotifyApi} />
       </div>
