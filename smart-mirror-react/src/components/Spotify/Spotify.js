@@ -271,7 +271,9 @@ const Spotify = ({ spotifyApi }) => {
           <div className="fa-solid fa-volume-down text-lg "></div>
         </div>
         <div className="flex justify-between mt-1.5">
-          <div className="text-sm self-center">{currentPlayback.device.name}</div>
+          <div className="text-sm self-center">
+            {currentPlayback.device.name}
+          </div>
           <div>
             <i
               className="fa-brands fa-deezer fa-sm"
@@ -294,7 +296,10 @@ const Spotify = ({ spotifyApi }) => {
                   className="text-center text-xl leading-6 cursor-pointer"
                   key={playlist.id}
                   onClick={() => {
-                    spotifyApi.play({ context_uri: playlist.uri });
+                    spotifyApi.play({ context_uri: playlist.uri }).then(() => {
+                      spotifyApi.setShuffle(true);
+                      setShowPlaylistPanel(false);
+                    });
                   }}
                 >
                   {playlist.name}
@@ -313,7 +318,9 @@ const Spotify = ({ spotifyApi }) => {
                   className="text-right text-md leading-6"
                   key={device.id}
                   onClick={() => {
-                    spotifyApi.transferMyPlayback([device.id]);
+                    spotifyApi.transferMyPlayback([device.id]).then(() => {
+                      setShowDevicePanel(false);
+                    });
                   }}
                 >
                   {device.name}

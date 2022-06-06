@@ -66,7 +66,7 @@ const Controlbar = ({ spotifyApi }) => {
       <div className="flex justify-center mt-8">
         <button onClick={toggleTimer}>
           <i
-            className={`fa-solid fa-stopwatch fa-2xl ${
+            className={`fa-solid fa-stopwatch fa-xl ${
               timerOn ? "text-gray-50" : "text-gray-500"
             }`}
           ></i>
@@ -75,7 +75,7 @@ const Controlbar = ({ spotifyApi }) => {
       <div className="flex justify-center mt-8">
         <button onClick={toggleMeditation}>
           <i
-            className={`fa-solid fa-spa fa-2xl ${
+            className={`fa-solid fa-spa fa-xl ${
               meditateOn ? "text-gray-50" : "text-gray-500"
             }`}
           ></i>
