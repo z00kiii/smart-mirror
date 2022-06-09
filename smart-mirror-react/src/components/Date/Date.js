@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Date = () => {
+const Date = ({ showDate }) => {
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
   const [sek, setSek] = useState("");
@@ -33,15 +33,29 @@ const Date = () => {
     getDate();
   }, 1000);
 
-  return (
-    <div className="tracking-wider">
-      <div className="text-2xl">{date}</div>
-      <div className="flex justify-end text-5xl mt-0.5">
-        {time}
-        <span className="align-top text-3xl text-gray-300">{sek}</span>
+  if (showDate) {
+    return (
+      <div className="tracking-wider">
+        <div className="text-2xl">{date}</div>
+        <div className="flex justify-end text-5xl mt-0.5">
+          {time}
+          <span className="align-top text-3xl text-gray-300">{sek}</span>
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className="flex items-center">
+        <div className="text-xxl tracking-wider">
+        {Math.trunc((1657144800000 - new window.Date().getTime()) / 1000)}
+        </div>
+        <img
+          className="h-20 ml-3"
+          src="https://c.tenor.com/6KfGCmioE8cAAAAC/happy-dance-dog.gif"
+        />
+      </div>
+    );
+  }
 };
 
 export default Date;

@@ -30,15 +30,18 @@ function App() {
   //   document.body.appendChild(faScript);
   // }, []);
   return (
-    <div className="bg-black text-white h-screen border-2 border-gray-500 p-2 tracking-wide font-mono">
+    <div className="bg-black text-white h-screen border-2 border-gray-500 p-2 tracking-wide font-mono main">
       <div className="w-32 absolute bottom-0.5 left-1 m-2 mb-1.5 leading-tight">
         <Spotify spotifyApi={spotifyApi} />
       </div>
       <div className="w-12 absolute bottom-5 right-1 m-2 leading-tight">
         <Controlbar spotifyApi={spotifyApi} />
       </div>
-      <div class="w-fit absolute top-1 right-1 m-2 leading-tight">
-        <Date />
+      <div className="w-fit absolute top-1 right-1 m-2 leading-tight">
+        <Date showDate={true}/>
+      </div>
+      <div className="w-fit leading-tight">
+        <Date showDate={false} />
       </div>
     </div>
   );
