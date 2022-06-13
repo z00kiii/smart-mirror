@@ -36,10 +36,10 @@ const Date = ({ showDate }) => {
   if (showDate) {
     return (
       <div className="tracking-wider">
-        <div className="text-2xl">{date}</div>
-        <div className="flex justify-end text-5xl mt-0.5">
+        <div className="text-3xl">{date}</div>
+        <div className="flex justify-end text-6xl mt-0.5">
           {time}
-          <span className="align-top text-3xl text-gray-300">{sek}</span>
+          <span className="align-top text-4xl text-gray-300">{sek}</span>
         </div>
       </div>
     );

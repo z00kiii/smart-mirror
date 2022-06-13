@@ -223,8 +223,12 @@ const Spotify = ({ spotifyApi }) => {
             max={currentPlayback.item.duration_ms}
             step="1000"
             defaultValue={currentPlayback.progress_ms}
-            onMouseUp={(e) => seek(e.target.value)}
+            onMouseUp={(e) => {
+              console.log("mouseup");
+              seek(e.target.value);
+            }}
             onChange={(e) => {
+              console.log("change")
               clearRefreshInterval(refreshInterval);
               // currentPlaybackProgress = millisToMinutesAndSeconds(
               //   e.target.value
@@ -265,8 +269,14 @@ const Spotify = ({ spotifyApi }) => {
             max="100"
             step="5"
             defaultValue={currentPlayback.device.volume_percent}
-            onMouseUp={(e) => volumeInput(e.target.value)}
-            onChange={() => clearRefreshInterval(refreshInterval)}
+            onMouseUp={(e) => {
+              console.log("mouseup");
+              volumeInput(e.target.value);
+            }}
+            onChange={() => {
+              console.log("change");
+              clearRefreshInterval(refreshInterval);
+            }}
           />
           <div className="fa-solid fa-volume-down text-lg "></div>
         </div>
