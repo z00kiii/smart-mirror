@@ -38,7 +38,6 @@ const Weather = () => {
       .then((res) => res.json())
       .then((res) => {
         setWeather(res);
-        console.log(res);
       });
   };
 
@@ -52,7 +51,7 @@ const Weather = () => {
   useEffect(() => {
     getWeather();
     setInterval(() => {
-      if (new Date().getMinutes() == 0) {
+      if (new Date().getMinutes() === 0) {
         getWeather();
       }
     }, 60000);

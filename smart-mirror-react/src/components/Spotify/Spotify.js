@@ -74,16 +74,31 @@ const Spotify = ({ spotifyApi }) => {
     spotifyApi.skipToNext();
   };
 
+  let volumeInputTimeout = null;
+
   const volumeInput = (input) => {
-    spotifyApi.setVolume(input).then(() => {
-      initRefreshInterval();
-    });
+    if (volumeInputTimeout) {
+      clearTimeout(volumeInputTimeout);
+    }
+    volumeInputTimeout = setTimeout(() => {
+      spotifyApi.setVolume(input).then(() => {
+        initRefreshInterval();
+      });
+    }, 1000);
   };
 
+  let seekTimeout = null;
   const seek = (input) => {
-    spotifyApi.seek(input).then(() => {
-      initRefreshInterval();
-    });
+    if (seekTimeout) {
+      clearTimeout(seekTimeout);
+      console.log("clear");
+    }
+    seekTimeout = setTimeout(() => {
+      console.log("go");
+      spotifyApi.seek(input).then(() => {
+        initRefreshInterval();
+      });
+    }, 1000);
   };
 
   const getDevices = () => {
@@ -103,15 +118,16 @@ const Spotify = ({ spotifyApi }) => {
         .then((res) => {
           setPlaylists(res.body.items);
           setShowPlaylistPanel(true);
-          // console.log(res.body.items);
         })
         .then(() => {
-          spotifyApi
-            .getPlaylist(currentPlayback.context.uri.split(":").pop())
-            .then((res) => {
-              console.log(res);
-              return resolve;
-            });
+          if (currentPlayback.context) {
+            spotifyApi
+              .getPlaylist(currentPlayback.context.uri.split(":").pop())
+              .then((res) => {
+                setCurrentPlaylist(res.body);
+                return resolve;
+              });
+          }
         });
     });
   };
@@ -148,7 +164,7 @@ const Spotify = ({ spotifyApi }) => {
   const millisToMinutesAndSeconds = (millis) => {
     let minutes = Math.floor(millis / 60000);
     let seconds = Number(((millis % 60000) / 1000).toFixed(0));
-    return seconds == 60
+    return seconds === 60
       ? minutes + 1 + ":00"
       : minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   };
@@ -159,7 +175,7 @@ const Spotify = ({ spotifyApi }) => {
   };
 
   if (currentPlayback) {
-    if (prevSong != currentPlayback.item.name) {
+    if (prevSong !== currentPlayback.item.name) {
       containsMySavedTracks(currentPlayback.item.id);
       setPrevSong(currentPlayback.item.name);
     }
@@ -223,19 +239,13 @@ const Spotify = ({ spotifyApi }) => {
             max={currentPlayback.item.duration_ms}
             step="1000"
             defaultValue={currentPlayback.progress_ms}
-            onMouseUp={(e) => {
-              console.log("mouseup");
-              seek(e.target.value);
-            }}
+            // onMouseUp={(e) => {
+            //   console.log("mouseup");
+            //   seek(e.target.value);
+            // }}
             onChange={(e) => {
-              console.log("change")
+              seek(e.target.value);
               clearRefreshInterval(refreshInterval);
-              // currentPlaybackProgress = millisToMinutesAndSeconds(
-              //   e.target.value
-              // );
-              // currentPlaybackLeft = millisToMinutesAndSeconds(
-              //   currentPlayback.item.duration_ms - e.target.value
-              // );
             }}
           />
         </div>
@@ -269,12 +279,12 @@ const Spotify = ({ spotifyApi }) => {
             max="100"
             step="5"
             defaultValue={currentPlayback.device.volume_percent}
-            onMouseUp={(e) => {
-              console.log("mouseup");
+            // onMouseUp={(e) => {
+            //   console.log("mouseup");
+            //   volumeInput(e.target.value);
+            // }}
+            onChange={(e) => {
               volumeInput(e.target.value);
-            }}
-            onChange={() => {
-              console.log("change");
               clearRefreshInterval(refreshInterval);
             }}
           />
@@ -292,9 +302,9 @@ const Spotify = ({ spotifyApi }) => {
           </div>
         </div>
         {showPlaylistPanel ? (
-          <ul className="absolute left-36 top-0 px-6 py-1 min-w-177px w-fit max-h-60 border-2 border-gray-800 rounded-md opacity-95 overflow-auto">
+          <ul className="absolute left-36 top-0 px-6 py-1 min-w-177px w-max max-h-60 border-2 border-gray-800 rounded-md opacity-95 overflow-auto">
             {currentPlaylist ? (
-              <li className="text-center text-gray-400 text-lg leading-6 border-b-2 border-gray-400">
+              <li className="text-center text-gray-300 text-lg leading-6 border-b-2 ">
                 {currentPlaylist.name}
               </li>
             ) : (
