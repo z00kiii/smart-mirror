@@ -9,7 +9,7 @@
 
 @keyframes moveSlideshow {
     100% {
-      transform: translateX(calc(-100% + 123px));
+      transform: translateX(calc(-100% + 237px));
     }
 }
 

@@ -13,9 +13,10 @@ const Spotify = ({ spotifyApi }) => {
   const [showPlaylistPanel, setShowPlaylistPanel] = useState(false);
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
 
+  let dewIt = false
   const initRefreshInterval = () => {
-    if (!refreshInterval) {
-      console.log("set");
+    if (dewIt) {
+      console.log("setInterval");
       setRefreshInterval(
         setInterval(() => {
           getCurrentPlayback();
@@ -24,11 +25,11 @@ const Spotify = ({ spotifyApi }) => {
     }
   };
 
-  const clearRefreshInterval = () => {
-    if (refreshInterval) {
-      console.log("clear");
+  const clearRefreshInterval = (refreshInterval) => {
+    if (!dewIt) {
+      console.log("clearInterval");
       clearInterval(refreshInterval);
-      setRefreshInterval(null);
+      dewIt = true;
     }
   };
 
@@ -53,6 +54,7 @@ const Spotify = ({ spotifyApi }) => {
   };
 
   useEffect(() => {
+    dewIt = true;
     initRefreshInterval();
     setTimeout(() => {
       //transferAndPlayOnMirror();
@@ -75,7 +77,6 @@ const Spotify = ({ spotifyApi }) => {
   };
 
   let volumeInputTimeout = null;
-
   const volumeInput = (input) => {
     if (volumeInputTimeout) {
       clearTimeout(volumeInputTimeout);
@@ -91,10 +92,8 @@ const Spotify = ({ spotifyApi }) => {
   const seek = (input) => {
     if (seekTimeout) {
       clearTimeout(seekTimeout);
-      console.log("clear");
     }
     seekTimeout = setTimeout(() => {
-      console.log("go");
       spotifyApi.seek(input).then(() => {
         initRefreshInterval();
       });
@@ -244,8 +243,8 @@ const Spotify = ({ spotifyApi }) => {
             //   seek(e.target.value);
             // }}
             onChange={(e) => {
-              seek(e.target.value);
               clearRefreshInterval(refreshInterval);
+              seek(e.target.value);
             }}
           />
         </div>
@@ -284,8 +283,8 @@ const Spotify = ({ spotifyApi }) => {
             //   volumeInput(e.target.value);
             // }}
             onChange={(e) => {
-              volumeInput(e.target.value);
               clearRefreshInterval(refreshInterval);
+              volumeInput(e.target.value);
             }}
           />
           <div className="fa-solid fa-volume-down text-lg "></div>
