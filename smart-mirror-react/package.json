@@ -17,11 +17,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "feStart": "react-scripts start",
+    "feStart": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electronStart" : "DISPLAY=\"${DISPLAY:=:0}\" electron --disable-gpu --disable-software-rasterizer ."
+    "electronStart": "DISPLAY=\"${DISPLAY:=:0}\" electron ."
   },
   "eslintConfig": {
     "extends": [

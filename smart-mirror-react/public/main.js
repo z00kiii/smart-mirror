@@ -1,4 +1,19 @@
 const { app, BrowserWindow } = require("electron");
+const axios = require("axios");
+
+const winurl = "http://localhost:3000";
+let interval = null
+
+const startApp = (win) => {
+  axios.get(winurl, { timeout: 1000 }).then((res) => {
+    if (res.status === 200) {
+      if(interval){
+        clearInterval(interval);
+      }
+      win.loadURL(winurl);
+    }
+  });
+}
 
 function createWindow() {
   // Create the browser window.
@@ -7,32 +22,16 @@ function createWindow() {
     // webPreferences: {
     //   nodeIntegration: true,
     // },
-    backgroundColor: "#000000"
+    backgroundColor: "#000000",
   });
+  //win.webContents.openDevTools();
 
   //load the index.html from a url
-  win.loadURL("http://localhost:3000");
+  startApp(win);
+  interval = setInterval(() => {
+    startApp(win);
+  }, 5000);
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+//app.commandLine.appendSwitch("trace-warnings");
 app.whenReady().then(createWindow);
-
-// // Quit when all windows are closed, except on macOS. There, it's common
-// // for applications and their menu bar to stay active until the user quits
-// // explicitly with Cmd + Q.
-// app.on("window-all-closed", () => {
-//   if (process.platform !== "darwin") {
-//     app.quit();
-//   }
-// });
-
-// app.on("activate", () => {
-//   // On macOS it's common to re-create a window in the app when the
-//   // dock icon is clicked and there are no other windows open.
-
-//   if (BrowserWindow.getAllWindows().length === 0) {
-//     createWindow();
-//   }
-// });
