@@ -3,10 +3,11 @@ const { app, BrowserWindow } = require("electron");
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    fullscreen: true
+    fullscreen: true,
     // webPreferences: {
     //   nodeIntegration: true,
     // },
+    backgroundColor: "#000000"
   });
 
   //load the index.html from a url

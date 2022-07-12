@@ -57,7 +57,8 @@ const Spotify = ({ spotifyApi }) => {
     dewIt = true;
     initRefreshInterval();
     setTimeout(() => {
-      //transferAndPlayOnMirror();
+      spotifyApi.setVolume(50);
+      transferAndPlayOnMirror();
     }, 1000);
     return () => {
       clearInterval(refreshInterval);
