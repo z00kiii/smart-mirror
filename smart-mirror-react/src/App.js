@@ -44,10 +44,7 @@ function App() {
             <Weather/>
         </div>
       <div className="w-fit absolute top-1 right-1 m-2 leading-tight">
-        <Date showDate={true}/>
-      </div>
-      <div className="w-fit leading-tight">
-        <Date showDate={false} />
+        <Date/>
       </div>
     </div>
   );
