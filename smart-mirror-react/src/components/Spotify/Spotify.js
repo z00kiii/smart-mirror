@@ -13,7 +13,7 @@ const Spotify = ({ spotifyApi }) => {
   const [showPlaylistPanel, setShowPlaylistPanel] = useState(false);
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
 
-  let dewIt = false
+  let dewIt = false;
   const initRefreshInterval = () => {
     if (dewIt) {
       console.log("setInterval");
@@ -54,11 +54,20 @@ const Spotify = ({ spotifyApi }) => {
   };
 
   useEffect(() => {
-    dewIt = true;
-    initRefreshInterval();
-    setTimeout(() => {
-      spotifyApi.setVolume(50);
-      transferAndPlayOnMirror();
+    var playInterval = setInterval(() => {
+      spotifyApi.getMyDevices().then((res) => {
+        if (res.body.devices.map((device) => device.name).includes("Mirror")) {
+          transferAndPlayOnMirror();
+          res.body.devices.forEach((device) => {
+            if (device.is_active) {
+              spotifyApi.setVolume(50);
+              clearInterval(playInterval);
+              dewIt = true;
+              initRefreshInterval();
+            }
+          });
+        }
+      });
     }, 1000);
     return () => {
       clearInterval(refreshInterval);
