@@ -21,7 +21,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electronStart": "DISPLAY=\"${DISPLAY:=:0}\" electron ."
+    "electronStart": "DISPLAY=\"${DISPLAY:=:0}\" electron .  --disable-gpu"
   },
   "eslintConfig": {
     "extends": [
