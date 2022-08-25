@@ -54,20 +54,33 @@ const Spotify = ({ spotifyApi }) => {
   };
 
   useEffect(() => {
+    // var playInterval = setInterval(() => {
+    //   spotifyApi.getMyDevices().then((res) => {
+    //     if (res.body.devices.map((device) => device.name).includes("Mirror")) {
+    //       transferAndPlayOnMirror();
+    //       res.body.devices.forEach((device) => {
+    //         if (device.is_active) {
+    //           spotifyApi.setVolume(50);
+    //           clearInterval(playInterval);
+    //           dewIt = true;
+    //           initRefreshInterval();
+    //         }
+    //       });
+    //     }
+    //   });
+    // }, 1000);
     var playInterval = setInterval(() => {
-      spotifyApi.getMyDevices().then((res) => {
-        if (res.body.devices.map((device) => device.name).includes("Mirror")) {
-          transferAndPlayOnMirror();
-          res.body.devices.forEach((device) => {
-            if (device.is_active) {
-              spotifyApi.setVolume(50);
-              clearInterval(playInterval);
-              dewIt = true;
-              initRefreshInterval();
-            }
-          });
+      spotifyApi.getMyCurrentPlaybackState().then((data) => {
+        if(data.body.is_playing){
+          clearInterval(playInterval);
+          dewIt = true;
+          initRefreshInterval();
         }
-      });
+        else{
+          spotifyApi.setVolume(50);
+          transferAndPlayOnMirror();
+        }
+      })
     }, 1000);
     return () => {
       clearInterval(refreshInterval);
