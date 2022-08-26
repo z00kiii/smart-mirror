@@ -14,6 +14,7 @@ const Spotify = ({ spotifyApi }) => {
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
 
   let dewIt = false;
+  let inTheLoop = false;
   const initRefreshInterval = () => {
     if (dewIt) {
       console.log("setInterval");
@@ -77,6 +78,7 @@ const Spotify = ({ spotifyApi }) => {
           initRefreshInterval();
         }
         else{
+          inTheLoop = true;
           spotifyApi.setVolume(50);
           transferAndPlayOnMirror();
         }
@@ -213,6 +215,7 @@ const Spotify = ({ spotifyApi }) => {
 
     return (
       <div>
+        {inTheLoop? (<div>still working</div>):(<div>im playing dumbass</div>)}
         <img
           onClick={togglePlaylistPanel}
           src={currentPlayback.item.album.images[1].url}
@@ -378,6 +381,7 @@ const Spotify = ({ spotifyApi }) => {
   } else {
     return (
       <div>
+        {inTheLoop? (<div>still working</div>):(<div>im playing dumbass</div>)}
         nobody in da house
         <div onClick={transferAndPlayOnMirror}>play Anyways</div>
       </div>
