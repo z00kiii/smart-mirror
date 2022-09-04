@@ -60,18 +60,27 @@ const Spotify = ({ spotifyApi }) => {
 
   if (currentPlayback === null) {
     var playInterval = setInterval(() => {
-      spotifyApi.getMyCurrentPlaybackState().then((data) => {
-        if (data.body.is_playing) {
-          clearInterval(playInterval);
-          dewIt = true;
-          initRefreshInterval();
-        } else {
-          inTheLoop = true;
-          spotifyApi.setVolume(50);
-          transferAndPlayOnMirror();
-        }
-      });
-    }, 1000);
+      console.log(dewIt)
+      if (currentPlayback === null) {
+        console.log("starting")
+        spotifyApi.getMyCurrentPlaybackState().then((data) => {
+          if (data.body && data.body.is_playing) {
+            console.log("finished");
+            clearInterval(playInterval);
+            dewIt = true;
+            initRefreshInterval();
+          } else {
+            inTheLoop = true;
+            spotifyApi.setVolume(50);
+            transferAndPlayOnMirror();
+          }
+        });
+      }
+    }, 2000);
+  } else {
+    if (playInterval != null) {
+      clearInterval(playInterval);
+    }
   }
 
   useEffect(() => {
