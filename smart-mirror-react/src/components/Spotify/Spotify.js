@@ -1,10 +1,10 @@
-import { refreshDuration, mirrorId } from "./spotifyData";
+import { refreshDuration, mirrorId, playingPlaceholder } from "./spotifyData";
 import { useEffect, useState } from "react";
 import "./Spotify.css";
 
 const Spotify = ({ spotifyApi }) => {
   const [refreshInterval, setRefreshInterval] = useState(null);
-  const [currentPlayback, setCurrentPlayback] = useState("");
+  const [currentPlayback, setCurrentPlayback] = useState(null);
   const [prevSong, setPrevSong] = useState("");
   const [liked, setLiked] = useState(false);
   const [devices, setDevices] = useState([]);
@@ -38,7 +38,11 @@ const Spotify = ({ spotifyApi }) => {
     spotifyApi
       .getMyCurrentPlaybackState()
       .then((data) => {
-        setCurrentPlayback(data.body);
+        if (data.body.currently_playing_type === "track") {
+          setCurrentPlayback(data.body);
+        } else {
+          setCurrentPlayback(playingPlaceholder);
+        }
       })
       .catch((err) => alert.log(err));
   };
@@ -54,36 +58,23 @@ const Spotify = ({ spotifyApi }) => {
       });
   };
 
-  useEffect(() => {
-    // var playInterval = setInterval(() => {
-    //   spotifyApi.getMyDevices().then((res) => {
-    //     if (res.body.devices.map((device) => device.name).includes("Mirror")) {
-    //       transferAndPlayOnMirror();
-    //       res.body.devices.forEach((device) => {
-    //         if (device.is_active) {
-    //           spotifyApi.setVolume(50);
-    //           clearInterval(playInterval);
-    //           dewIt = true;
-    //           initRefreshInterval();
-    //         }
-    //       });
-    //     }
-    //   });
-    // }, 1000);
+  if (currentPlayback === null) {
     var playInterval = setInterval(() => {
       spotifyApi.getMyCurrentPlaybackState().then((data) => {
-        if(data.body.is_playing){
+        if (data.body.is_playing) {
           clearInterval(playInterval);
           dewIt = true;
           initRefreshInterval();
-        }
-        else{
+        } else {
           inTheLoop = true;
           spotifyApi.setVolume(50);
           transferAndPlayOnMirror();
         }
-      })
+      });
     }, 1000);
+  }
+
+  useEffect(() => {
     return () => {
       clearInterval(refreshInterval);
     };
@@ -215,8 +206,8 @@ const Spotify = ({ spotifyApi }) => {
 
     return (
       <div>
-        {inTheLoop? (<div>still working</div>):(<div>im playing dumbass</div>)}
         <img
+          className="w-full"
           onClick={togglePlaylistPanel}
           src={currentPlayback.item.album.images[1].url}
         />
@@ -381,7 +372,7 @@ const Spotify = ({ spotifyApi }) => {
   } else {
     return (
       <div>
-        {inTheLoop? (<div>still working</div>):(<div>im playing dumbass</div>)}
+        {inTheLoop ? <div>still working</div> : <div>im playing dumbass</div>}
         nobody in da house
         <div onClick={transferAndPlayOnMirror}>play Anyways</div>
       </div>

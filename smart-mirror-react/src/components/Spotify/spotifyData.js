@@ -10,3 +10,19 @@ const scopes =
 export const loginUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&response_type=code`;
 
 export const refreshDuration = 1000;
+
+export const playingPlaceholder = {
+  item: {
+    name: "Wat te fak",
+    artists: [{ name: "Imagine Dragons theze nuts" }],
+    album: {
+      images: [
+        ,
+        { url: "https://c.tenor.com/cNnsPB7dYfYAAAAC/dancing-dog.gif" },
+      ],
+    },
+  },
+  device: {
+    volume_percent: 100,
+  },
+}
