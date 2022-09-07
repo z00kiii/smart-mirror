@@ -38,13 +38,13 @@ const Spotify = ({ spotifyApi }) => {
     spotifyApi
       .getMyCurrentPlaybackState()
       .then((data) => {
-        if (data.body.currently_playing_type === "track") {
+        if (data.body != null && data.body.currently_playing_type === "track") {
           setCurrentPlayback(data.body);
         } else {
           setCurrentPlayback(playingPlaceholder);
         }
       })
-      .catch((err) => alert.log(err));
+      .catch((err) => alert(err));
   };
 
   const transferAndPlayOnMirror = () => {
@@ -58,32 +58,24 @@ const Spotify = ({ spotifyApi }) => {
       });
   };
 
-  if (currentPlayback === null) {
-    var playInterval = setInterval(() => {
-      console.log(dewIt)
-      if (currentPlayback === null) {
-        console.log("starting")
-        spotifyApi.getMyCurrentPlaybackState().then((data) => {
-          if (data.body && data.body.is_playing) {
-            console.log("finished");
-            clearInterval(playInterval);
-            dewIt = true;
-            initRefreshInterval();
-          } else {
-            inTheLoop = true;
-            spotifyApi.setVolume(50);
-            transferAndPlayOnMirror();
-          }
-        });
-      }
-    }, 2000);
-  } else {
-    if (playInterval != null) {
-      clearInterval(playInterval);
-    }
-  }
-
   useEffect(() => {
+    if (currentPlayback === null) {
+      var playInterval = setInterval(() => {
+        if (currentPlayback === null) {
+          spotifyApi.getMyCurrentPlaybackState().then((data) => {
+            if (data.body && data.body.is_playing) {
+              clearInterval(playInterval);
+              dewIt = true;
+              initRefreshInterval();
+            } else {
+              inTheLoop = true;
+              spotifyApi.setVolume(50);
+              transferAndPlayOnMirror();
+            }
+          });
+        }
+      }, 5000);
+    }
     return () => {
       clearInterval(refreshInterval);
     };
