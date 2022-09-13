@@ -4,8 +4,9 @@
   background-color: transparent;
   position: fixed;
   border-radius: 50%;
-  border: 1px solid white;
+  border: 1px solid;
   pointer-events: none;
+  opacity: .90;
 }
 
 @keyframes ripple-effect {

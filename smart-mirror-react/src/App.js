@@ -16,13 +16,13 @@ function App() {
   document.addEventListener("click", (event) => {
     const ripple = document.createElement("div");
 
-    ripple.className = "ripple";
+    ripple.className = "ripple text-gray-500";
     document.body.appendChild(ripple);
 
     ripple.style.left = `${event.clientX}px`;
     ripple.style.top = `${event.clientY}px`;
 
-    ripple.style.animation = "ripple-effect .3s  linear";
+    ripple.style.animation = "ripple-effect .2s  linear";
     ripple.onanimationend = () => document.body.removeChild(ripple);
   });
 
