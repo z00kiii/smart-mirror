@@ -6,13 +6,16 @@ import audio from "./timerBeep.mp3";
 const Controlbar = ({ spotifyApi }) => {
   const [timerOn, setTimerOn] = useState(false);
   const [meditateOn, setMeditateOn] = useState(false);
+  const [countdownOn, setCountdownOn] = useState(false);
   const [timerInterval, setTimerInterval] = useState();
   const [meditateTimeout, setMeditateTimeout] = useState();
+  const [countdownTimeout, setCountdownTimeout] = useState();
 
   const timerBeep = new Audio(audio);
   timerBeep.volume = 0.5;
   const meditationDuration = 900000;
   const timerDuration = 30000;
+  const countdownDuration = 150000;
 
   const toggleTimer = () => {
     if (meditateOn) {
@@ -32,6 +35,20 @@ const Controlbar = ({ spotifyApi }) => {
       }, 6000);
     }
     setTimerOn(!timerOn);
+  };
+
+  const toggleCountdown = () => {
+    if (countdownOn) {
+      clearTimeout(countdownTimeout);
+    } else {
+      setCountdownTimeout(
+        setTimeout(() => {
+          timerBeep.play();
+          setCountdownOn(false);
+        }, countdownDuration)
+      );
+    }
+    setCountdownOn(!countdownOn);
   };
 
   const toggleMeditation = () => {
@@ -68,6 +85,17 @@ const Controlbar = ({ spotifyApi }) => {
           <i
             className={`fa-solid fa-stopwatch fa-xl ${
               timerOn ? "text-gray-50" : "text-gray-500"
+            }`}
+          ></i>
+        </button>
+      </div>
+      <div className="flex justify-center mt-8">
+        <button onClick={toggleCountdown}>
+          <i
+            className={`fa-solid fa-xl ${
+              countdownOn
+                ? "text-gray-50 fa-hourglass-start"
+                : "text-gray-500 fa-hourglass-end"
             }`}
           ></i>
         </button>
