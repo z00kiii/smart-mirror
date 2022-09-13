@@ -1,3 +1,7 @@
+:root {
+  --titleparentwidth: 100px;
+}
+
 .title-wrapper{
     overflow: hidden;
     transform:translateX(0px);
@@ -9,7 +13,7 @@
 
 @keyframes moveSlideshow {
     100% {
-      transform: translateX(calc(-100% + 84px));
+      transform: translateX(calc(-100% + var(--titleparentwidth)));
     }
 }
 

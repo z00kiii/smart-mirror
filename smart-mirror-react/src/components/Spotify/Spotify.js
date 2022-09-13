@@ -185,9 +185,19 @@ const Spotify = ({ spotifyApi }) => {
       : minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   };
 
+  //does it on every render --performance
   const isOverflown = (element) => {
     if (!element) return false;
-    return element.scrollWidth > element.parentElement.clientWidth;
+    let overflown = element.scrollWidth > element.parentElement.clientWidth;
+    if (overflown) {
+      document
+        .querySelector(":root")
+        .style.setProperty(
+          "--titleparentwidth",
+          element.parentElement.clientWidth + "px"
+        );
+    }
+    return overflown;
   };
 
   if (currentPlayback) {
