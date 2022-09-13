@@ -1,3 +1,20 @@
+.ripple {
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  position: fixed;
+  border-radius: 50%;
+  border: 1px solid white;
+  pointer-events: none;
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(3);
+    opacity: 0.01;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 0;
   /* background: transparent;  Optional: just make scrollbar invisible */
@@ -21,7 +38,7 @@ html {
   font-size: 30px;
 }
 
-.main{
+.main {
   height: 100vh;
   display: flex;
   justify-content: center;

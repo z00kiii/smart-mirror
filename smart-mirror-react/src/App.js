@@ -13,6 +13,19 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 function App() {
+  document.addEventListener("click", (event) => {
+    const ripple = document.createElement("div");
+
+    ripple.className = "ripple";
+    document.body.appendChild(ripple);
+
+    ripple.style.left = `${event.clientX}px`;
+    ripple.style.top = `${event.clientY}px`;
+
+    ripple.style.animation = "ripple-effect .3s  linear";
+    ripple.onanimationend = () => document.body.removeChild(ripple);
+  });
+
   const code = new URLSearchParams(window.location.search).get("code");
   if (!code) {
     window.location = loginUrl;
