@@ -44,30 +44,34 @@ const Spotify = ({ spotifyApi }) => {
           setCurrentPlayback(playingPlaceholder);
         }
       })
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   };
 
   const transferAndPlayOnMirror = () => {
     spotifyApi
       .transferMyPlayback([mirrorId])
       .then(() => {
+        console.log("playplay")
         spotifyApi.play();
       })
       .catch((err) => {
-        alert("Raspotify is a bitch " + err.message);
+        console.log("Raspotify is a bitch " + err.message);
       });
   };
 
   useEffect(() => {
     if (currentPlayback === null) {
       var playInterval = setInterval(() => {
+        console.log("intervaling");
         if (currentPlayback === null) {
           spotifyApi.getMyCurrentPlaybackState().then((data) => {
             if (data.body && data.body.is_playing) {
+              console.log("looking forward");
               clearInterval(playInterval);
               dewIt = true;
               initRefreshInterval();
             } else {
+              console.log(data.body);
               inTheLoop = true;
               spotifyApi.setVolume(50);
               transferAndPlayOnMirror();
@@ -82,7 +86,12 @@ const Spotify = ({ spotifyApi }) => {
   }, []);
 
   const togglePlayback = () => {
-    currentPlayback.is_playing ? spotifyApi.pause() : spotifyApi.play();
+    currentPlayback.is_playing
+      ? spotifyApi.pause()
+      : spotifyApi.play().catch((err) => {
+          console.log("alaaarm")
+          console.log(err);
+        });
   };
 
   const skipToPrevious = () => {
