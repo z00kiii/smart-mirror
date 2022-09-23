@@ -89,8 +89,11 @@ const Spotify = ({ spotifyApi }) => {
     currentPlayback.is_playing
       ? spotifyApi.pause()
       : spotifyApi.play().catch((err) => {
-          console.log("alaaarm")
-          console.log(err);
+        if(err.toString().includes("DEVICE NOT FOUND")){
+          transferAndPlayOnMirror();
+        }else{
+          print(typeof err)
+        }
         });
   };
 
