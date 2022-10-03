@@ -1,4 +1,5 @@
 import React from "react";
+import "./Controlbar.css";
 import { mirrorId } from "../Spotify/spotifyData";
 import { useState } from "react";
 import audio from "./timerBeep.mp3";
@@ -16,6 +17,10 @@ const Controlbar = ({ spotifyApi }) => {
   const meditationDuration = 900000;
   const timerDuration = 30000;
   const countdownDuration = 150000;
+
+  const reloadPage = () => {
+    window.location = "/";
+  };
 
   const toggleTimer = () => {
     if (meditateOn) {
@@ -80,6 +85,11 @@ const Controlbar = ({ spotifyApi }) => {
 
   return (
     <div>
+      <div className="flex justify-center mt-8">
+        <button onClick={reloadPage}>
+          <i className="fa-solid fa-redo fa-xl text-gray-500"></i>
+        </button>
+      </div>
       <div className="flex justify-center mt-8">
         <button onClick={toggleTimer}>
           <i
