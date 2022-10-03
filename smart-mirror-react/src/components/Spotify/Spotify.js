@@ -51,7 +51,7 @@ const Spotify = ({ spotifyApi }) => {
     spotifyApi
       .transferMyPlayback([mirrorId])
       .then(() => {
-        console.log("playplay")
+        console.log("playplay");
         spotifyApi.play();
       })
       .catch((err) => {
@@ -78,7 +78,7 @@ const Spotify = ({ spotifyApi }) => {
             }
           });
         }
-      }, 5000);
+      }, 3000);
     }
     return () => {
       clearInterval(refreshInterval);
@@ -89,11 +89,7 @@ const Spotify = ({ spotifyApi }) => {
     currentPlayback.is_playing
       ? spotifyApi.pause()
       : spotifyApi.play().catch((err) => {
-        if(err.toString().includes("DEVICE NOT FOUND")){
           transferAndPlayOnMirror();
-        }else{
-          print(typeof err)
-        }
         });
   };
 
