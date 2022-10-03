@@ -1,8 +1,10 @@
 import React from "react";
 import "./Controlbar.css";
+import "./ControlbarButton.js";
 import { mirrorId } from "../Spotify/spotifyData";
 import { useState } from "react";
 import audio from "./timerBeep.mp3";
+import ControlbarButton from "./ControlbarButton.js";
 
 const Controlbar = ({ spotifyApi }) => {
   const [timerOn, setTimerOn] = useState(false);
@@ -70,7 +72,7 @@ const Controlbar = ({ spotifyApi }) => {
           spotifyApi.pause();
         }, 1000);
       });
-      spotifyApi.setVolume(65);
+      spotifyApi.setVolume(50);
       setMeditateTimeout(
         setTimeout(() => {
           spotifyApi.transferMyPlayback([mirrorId]).then(() => {
@@ -85,40 +87,27 @@ const Controlbar = ({ spotifyApi }) => {
 
   return (
     <div>
-      <div className="flex justify-center mt-8">
-        <button onClick={reloadPage}>
-          <i className="fa-solid fa-redo fa-xl text-gray-500"></i>
-        </button>
-      </div>
-      <div className="flex justify-center mt-8">
-        <button onClick={toggleTimer}>
-          <i
-            className={`fa-solid fa-stopwatch fa-xl ${
-              timerOn ? "text-gray-50" : "text-gray-500"
-            }`}
-          ></i>
-        </button>
-      </div>
-      <div className="flex justify-center mt-8">
-        <button onClick={toggleCountdown}>
-          <i
-            className={`fa-solid fa-xl ${
-              countdownOn
-                ? "text-gray-50 fa-hourglass-start"
-                : "text-gray-500 fa-hourglass-end"
-            }`}
-          ></i>
-        </button>
-      </div>
-      <div className="flex justify-center mt-8">
-        <button onClick={toggleMeditation}>
-          <i
-            className={`fa-solid fa-spa fa-xl ${
-              meditateOn ? "text-gray-50" : "text-gray-500"
-            }`}
-          ></i>
-        </button>
-      </div>
+      <ControlbarButton
+        callback={reloadPage}
+        style={"fa-redo"}
+        status={false}
+      ></ControlbarButton>
+      <ControlbarButton
+        callback={toggleTimer}
+        style={"fa-stopwatch"}
+        status={timerOn}
+      ></ControlbarButton>
+      <ControlbarButton
+        callback={toggleCountdown}
+        style={"fa-hourglass-end"}
+        toggledStyle={"fa-hourglass-start"}
+        status={countdownOn}
+      ></ControlbarButton>
+      <ControlbarButton
+        callback={toggleMeditation}
+        style={"fa-spa"}
+        status={meditateOn}
+      ></ControlbarButton>
     </div>
   );
 };
