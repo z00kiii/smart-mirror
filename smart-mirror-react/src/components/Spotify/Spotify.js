@@ -39,6 +39,7 @@ const Spotify = ({ spotifyApi }) => {
       .getMyCurrentPlaybackState()
       .then((data) => {
         if (data.body != null && data.body.currently_playing_type === "track") {
+          console.log("i got: " + data.body);
           setCurrentPlayback(data.body);
         } else {
           setCurrentPlayback(playingPlaceholder);
@@ -59,26 +60,28 @@ const Spotify = ({ spotifyApi }) => {
       });
   };
 
+  const autoplayer = () => {
+    if (localStorage.getItem("isPlaying") !== "true") {
+      spotifyApi.getMyCurrentPlaybackState().then((data) => {
+        if (data.body && data.body.is_playing) {
+          localStorage.setItem("isPlaying", true);
+          dewIt = true;
+          initRefreshInterval();
+        } else {
+          inTheLoop = true;
+          spotifyApi.setVolume(50);
+          transferAndPlayOnMirror();
+        }
+      });
+    }
+  };
+
   useEffect(() => {
     if (currentPlayback === null) {
-      var playInterval = setInterval(() => {
-        console.log("intervaling");
-        if (currentPlayback === null) {
-          spotifyApi.getMyCurrentPlaybackState().then((data) => {
-            if (data.body && data.body.is_playing) {
-              console.log("looking forward");
-              clearInterval(playInterval);
-              dewIt = true;
-              initRefreshInterval();
-            } else {
-              console.log(data.body);
-              inTheLoop = true;
-              spotifyApi.setVolume(50);
-              transferAndPlayOnMirror();
-            }
-          });
-        }
-      }, 3000);
+      localStorage.setItem("isPlaying", false);
+      for (var duration = 3000; duration <= 15000; duration += 3000) {
+        setTimeout(autoplayer, duration);
+      }
     }
     return () => {
       clearInterval(refreshInterval);
