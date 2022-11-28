@@ -39,7 +39,7 @@ const Spotify = ({ spotifyApi }) => {
       .getMyCurrentPlaybackState()
       .then((data) => {
         if (data.body != null && data.body.currently_playing_type === "track") {
-          console.log("i got: " + data.body);
+          //console.log("i got: " + data.body);
           setCurrentPlayback(data.body);
         } else {
           setCurrentPlayback(playingPlaceholder);

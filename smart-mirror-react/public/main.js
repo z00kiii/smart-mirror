@@ -21,7 +21,7 @@ function createWindow() {
     fullscreen: true,
     backgroundColor: "#000000",
   });
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 
   //load the index.html from a url
   startApp(win);
